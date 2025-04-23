@@ -1,12 +1,52 @@
-# React + Vite
+# Multi-Page Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 🚀 Features Overview
 
-Currently, two official plugins are available:
+This project showcases a complete React application with advanced routing and UI techniques using `react-router-dom`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🌐 Core Pages & Navigation
+- Basic pages implemented: **Home**, **About**, and **Contact**.
+- Responsive **Navigation Bar** using `NavLink` or `Link` for seamless page switching.
+- Active route is visually **highlighted** for clear navigation context.
 
-## Expanding the ESLint configuration
+### ❌ 404 Page
+- Includes a **catch-all route** to display a user-friendly **"Page Not Found"** message for invalid URLs.
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 🔐 Authentication & Route Protection
+- Mock **Login page** implemented with basic form validation.
+- Upon login, users are **redirected to the Dashboard**.
+- Protected routing ensures only authenticated users can access `/dashboard` and its sub-pages.
+- Unauthenticated users are automatically redirected to `/login`.
+
+### 🧭 Nested Routing
+- Dashboard layout includes the following nested sub-pages:
+  - `/dashboard/profile`
+  - `/dashboard/settings`
+  - `/dashboard/reports`
+- Nested routes rendered via `Outlet` for modular and organized component structure.
+
+### 🔄 URL Parameters & Dynamic Routing
+- A **UserList page** lists users and supports dynamic routing via:
+  - `/users/:id` to view individual user details based on URL parameters.
+
+### 📦 Programmatic Navigation
+- Used `useNavigate()` to redirect users after login and form submissions dynamically.
+
+### 🔐 Protected Routes
+- Implemented mock authentication logic to **guard routes** from unauthenticated access.
+
+### 🔍 Query Parameters
+- Handled query strings (e.g., `?sort=name`) to demonstrate **query parameter reading and display**.
+
+### ⚡ Lazy Loading
+- Heavy components like the **Reports** page are **code-split and lazy-loaded** with `React.lazy()` and `Suspense`.
+
+### 🧭 Breadcrumb Navigation
+- Breadcrumbs update in real time to reflect the **current route path**, enhancing user orientation.
+
+### 🖱️ Scroll Restoration
+- Scroll position is preserved when navigating back to previously visited routes using `useLocation` and state tracking.
+
+---
+
+This project serves as a solid boilerplate for building modern, scalable, and user-friendly React applications with a strong routing foundation.
