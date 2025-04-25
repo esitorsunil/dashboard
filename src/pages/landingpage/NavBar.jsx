@@ -8,7 +8,7 @@ const Navbar = () => {
       <Container>
         <NavLink to="/" className="navbar-brand d-flex align-items-center">
           <img
-            src="https://www.pranathiss.com/static/assets/images/pranathiss-white.webp"
+            src="/images/pranathiss-white.webp"
             alt="logo"
             height="40"
             className="d-inline-block align-top me-2"

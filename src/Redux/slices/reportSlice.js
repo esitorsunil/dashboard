@@ -33,8 +33,11 @@ const reportSlice = createSlice({
     addReport: (state, action) => {
       state.reports.push(action.payload);
     },
+    deleteReport: (state, action) => {
+      state.reports = state.reports.filter(report => report.id !== action.payload);
+    },
   },
 });
 
-export const { updateReport, addReport } = reportSlice.actions;
+export const { updateReport, addReport, deleteReport } = reportSlice.actions;
 export default reportSlice.reducer;

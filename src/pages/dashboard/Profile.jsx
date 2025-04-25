@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateProfile } from "../../Redux/slices/profileSlice";
 import { Card, Row, Col, Button, Badge, Modal, Form } from "react-bootstrap";
@@ -9,6 +9,14 @@ const Profile = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [editableUser, setEditableUser] = useState(user);
+  const [imagePreview, setImagePreview] = useState(user.avatars);
+
+  useEffect(() => {
+    const savedProfile = JSON.parse(localStorage.getItem("profile"));
+    if (savedProfile && savedProfile.avatars) {
+      setImagePreview(savedProfile.avatars);
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,10 +26,29 @@ const Profile = () => {
     }));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+        setEditableUser((prev) => ({
+          ...prev,
+          avatars: reader.result, // Update editableUser with new image
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSave = () => {
-    dispatch(updateProfile(editableUser));
+    dispatch(updateProfile(editableUser)); // Dispatch full profile including avatar
+    localStorage.setItem("profile", JSON.stringify(editableUser)); // Save updated profile to localStorage
     setShowModal(false);
   };
+
+  // Get today's date in the format YYYY-MM-DD
+  const today = new Date().toISOString().split("T")[0];
 
   return (
     <div>
@@ -30,13 +57,28 @@ const Profile = () => {
         <Col md={4}>
           <Card className="shadow-sm text-center">
             <Card.Body>
-              <img src={user.avatar} className="rounded-circle mb-3" width={100} height={100} />
+              <img
+                src={imagePreview || user.avatars}
+                className="rounded-circle mb-3"
+                width={100}
+                height={100}
+                alt="Profile"
+              />
               <h5 className="fw-bold">{user.name}</h5>
-              <p className="text-muted">@{user.username}</p>
-              <Badge bg="primary" className="mb-2">{user.role}</Badge>
+              <p className="text-muted mb-2">@{user.username}</p>
+              <Badge bg="primary" className="mb-1">{user.role}</Badge>
               <p className="small text-muted mb-0">Joined: {user.joined}</p>
               <p className="small text-muted">Location: {user.location}</p>
-              <Button variant="outline-primary" size="sm" className="mt-2" onClick={() => setShowModal(true)}>
+              <Button
+                variant="outline-primary"
+                size="sm"
+                className="mt-2"
+                onClick={() => {
+                  setEditableUser(user); // reset form to latest data
+                  setImagePreview(user.avatars);
+                  setShowModal(true);
+                }}
+              >
                 Edit Profile
               </Button>
             </Card.Body>
@@ -90,15 +132,66 @@ const Profile = () => {
           <Form>
             <Form.Group controlId="formName" className="mb-3">
               <Form.Label>Name</Form.Label>
-              <Form.Control type="text" name="name" value={editableUser.name} onChange={handleChange} />
+              <Form.Control
+                type="text"
+                name="name"
+                value={editableUser.name}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="formUsername" className="mb-3">
+              <Form.Label>Username</Form.Label>
+              <Form.Control
+                type="text"
+                name="username"
+                value={editableUser.username}
+                onChange={handleChange}
+              />
             </Form.Group>
             <Form.Group controlId="formRole" className="mb-3">
               <Form.Label>Role</Form.Label>
-              <Form.Control type="text" name="role" value={editableUser.role} onChange={handleChange} />
+              <Form.Control
+                type="text"
+                name="role"
+                value={editableUser.role}
+                onChange={handleChange}
+              />
             </Form.Group>
             <Form.Group controlId="formLocation" className="mb-3">
               <Form.Label>Location</Form.Label>
-              <Form.Control type="text" name="location" value={editableUser.location} onChange={handleChange} />
+              <Form.Control
+                type="text"
+                name="location"
+                value={editableUser.location}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="formJoined" className="mb-3">
+              <Form.Label>Joined Date</Form.Label>
+              <Form.Control
+                type="date"
+                name="joined"
+                value={editableUser.joined}
+                max={today} // Restrict the date to today's date or any previous date
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="formAvatar" className="mb-3">
+              <Form.Label>Profile Picture</Form.Label>
+              <Form.Control
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+              {imagePreview && (
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="mt-3"
+                  width={100}
+                  height={100}
+                />
+              )}
             </Form.Group>
           </Form>
         </Modal.Body>

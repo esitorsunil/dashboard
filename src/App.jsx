@@ -27,6 +27,7 @@ import Tasks from './pages/dashboard/task';
 import EditTask from './pages/dashboard/Edittask';
 import NotFound from './pages/landingpage/NotFound';
 import SkeletonLoader from './components/ShimmerUI';
+import AddUser from './pages/dashboard/addUser';
 
 const Report = lazy(() => import('./pages/dashboard/Reports'));
 const UserList = lazy(() => import('./pages/dashboard/UserList'));
@@ -70,6 +71,7 @@ const AppRoutes = () => {
               <Route path="reports" element={<Report />} />
               <Route path="reports/:id" element={<EditReport />} />
               <Route path="reports/add" element={<AddReport />} />
+              <Route path="users/add" element={<AddUser />} />
               <Route path="users" element={<UserList />} />
               <Route path="users/:id" element={<UserDetails />} />
               <Route path="overview" element={<Overview />} />

@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import reportReducer from './slices/reportSlice';
 import taskReducer from './slices/taskSlice';
 import profileReducer from "./slices/profileSlice";
+import userReducer from "./slices/userSlice"
 
 const saveToLocalStorage = (state) => {
   try {
@@ -30,7 +31,8 @@ const store = configureStore({
   reducer: {
     report: reportReducer,
     tasks: taskReducer,
-    profile: profileReducer, // ✅ make sure this is included
+    profile: profileReducer,
+    users: userReducer, // ✅ make sure this is included
   },
   preloadedState: loadFromLocalStorage(), // ✅ load saved state
 });

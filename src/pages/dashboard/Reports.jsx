@@ -1,11 +1,18 @@
 import React from "react";
 import { Card, Row, Col, Table, Badge, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteReport } from "../../Redux/slices/reportSlice"; // Import your delete action
 
 const Report = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const reports = useSelector((state) => state.report.reports);
+
+  const handleDelete = (id) => {
+    dispatch(deleteReport(id));
+    localStorage.setItem("reports", JSON.stringify(reports.filter(report => report.id !== id)));
+  };
 
   return (
     <div>
@@ -16,8 +23,7 @@ const Report = () => {
         </Button>
       </h3>
 
-      <Row className="mb-4 g-4">
-      </Row>
+      <Row className="mb-4 g-4"></Row>
 
       <Card className="shadow-sm">
         <Card.Body>
@@ -60,6 +66,14 @@ const Report = () => {
                       onClick={() => navigate(`${report.id}`)}
                     >
                       Edit
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline-danger"
+                      className="ms-2"
+                      onClick={() => handleDelete(report.id)}
+                    >
+                      Delete
                     </Button>
                   </td>
                 </tr>

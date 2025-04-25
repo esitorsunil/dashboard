@@ -26,7 +26,7 @@ const About = () => {
           </Col>
           <Col md={6}>
             <img
-              src="https://cdn.dribbble.com/userupload/5311377/file/original-c2ff971c349610ba556c881d117f4890.png?resize=1600x1200"
+              src="/images/dashboardlayout.webp"
               alt="eCommerce Mission"
               className="img-fluid rounded shadow-sm"
             />
